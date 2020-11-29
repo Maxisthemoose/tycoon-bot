@@ -23,4 +23,17 @@ export default class BaseClient extends Client {
 
 }
 
-export const config = { prefix: "!", token: process.env.TOKEN, owners: "408080307603111936", Base: { ws: { intents: Intents.ALL } } }
+export const config = {
+    prefix: "!",
+    token: process.env.TOKEN,
+    owners: [
+        "408080307603111936",
+        "481158632008974337",
+        "488143607602085908"
+    ],
+    Base: {
+        ws: {
+            intents: Intents.ALL
+        }
+    }
+}
