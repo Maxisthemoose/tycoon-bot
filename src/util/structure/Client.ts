@@ -23,7 +23,7 @@ export default class BaseClient extends Client {
 
 }
 
-export const config = {
+export const config: BaseClientData = {
     prefix: "!",
     token: process.env.TOKEN,
     owners: [
@@ -34,6 +34,7 @@ export const config = {
     Base: {
         ws: {
             intents: Intents.ALL
-        }
+        },
+        restTimeOffset: 40
     }
 }
