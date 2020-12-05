@@ -1,6 +1,6 @@
 import { Message, MessageReaction, User as DUser } from "discord.js";
-import Store from "../../database/interfaces/Store";
-import User from "../../database/models/User";
+import Store from "../../database/models/user/store.type";
+import UserModel from "../../database/models/user/user.model";
 import BaseClient from "../../util/structure/Client";
 import Command from "../../util/structure/Command";
 
@@ -17,8 +17,8 @@ export default class Test extends Command {
     }
     async run(client: BaseClient, message: Message, args: string[]) {
 
-        let user = await User.findOne({ uId: message.author.id });
-        if (!user) user = await User.create({ uId: message.author.id });
+        let user = await UserModel.findOne({ uId: message.author.id });
+        if (!user) user = await UserModel.create({ uId: message.author.id });
 
         const stores: Store[] = [
             { cost: 1000, output: 100, type: "pizza" },
