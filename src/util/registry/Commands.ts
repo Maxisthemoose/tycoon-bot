@@ -12,10 +12,10 @@ export default function init(dir: string, subDirs: string[], client: BaseClient)
 
                 const command: Command = new CommandFile();
 
-                client.commands.set(command.CommandData.name, command);
+                client.commands.set(command.CommandData.name.toLowerCase(), command);
 
                 for (const alias of command.CommandData.aliases) {
-                    client.aliases.set(alias, command.CommandData.name);
+                    client.aliases.set(alias, command.CommandData.name.toLowerCase());
                 }
 
             }

@@ -1,6 +1,5 @@
 import { Message, MessageReaction, User as DUser } from "discord.js";
 import Store from "../../database/models/user/store.type";
-import UserModel from "../../database/models/user/user.model";
 import BaseClient from "../../util/structure/Client";
 import Command from "../../util/structure/Command";
 
@@ -17,8 +16,10 @@ export default class Test extends Command {
     }
     async run(client: BaseClient, message: Message, args: string[]) {
 
-        let user = await UserModel.findOne({ uId: message.author.id });
-        if (!user) user = await UserModel.create({ uId: message.author.id });
+        let user = client.userCache.get(message.author.id);
+        if (!user) return message.channel.send(`Please use !${client.commands.get('start').CommandData.usage}`)
+
+        if (args[0]?.toLowerCase() === 'delete') return this.delete(client, message);
 
         const stores: Store[] = [
             { cost: 1000, output: 100, type: "pizza" },
@@ -54,12 +55,16 @@ export default class Test extends Command {
         user.balance = user.balance - storeToBuy.cost;
 
         try {
-            await user.updateOne(user);
+            await client.userCache.update(user);
         } catch (err) {
             return message.channel.send("Something went wrong");
         }
 
         return m.edit(`${message.author}, you successfully bought the ${storeToBuy.type} store!`);
+    }
 
+    public async delete(client: BaseClient, message: Message,): Promise<void> {
+        await client.userCache.delete(message.author.id);
+        message.channel.send('Deleted you account!');
     }
 }

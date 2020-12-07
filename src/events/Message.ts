@@ -11,11 +11,11 @@ export default class Message extends Event {
     }
     async run(client: BaseClient, message: Msg) {
 
-        const args = message.content.slice(client.BaseClientData.prefix.length).trim().split(" ");
+        const args = message.content.toLowerCase().slice(client.BaseClientData.prefix.length).trim().split(" ");
         const command = args.shift();
 
         const CommandFile = client.commands.get(command) || client.commands.get(client.aliases.get(command));
-
+        console.log(CommandFile)
         if (CommandFile) return CommandFile.run(client, message, args);
     }
 }
