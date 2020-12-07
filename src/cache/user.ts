@@ -24,10 +24,25 @@ export class UserCache {
 
     /**
      * Get all users from the cache.
+     * @param options.$where Either an object to filter the users by or a callback function to filter.
      */
-    public getAll(): User[] {
+    public getAll(options?: { $where: UserUpdateQuery | ((value: User) => boolean) }): User[] {
         const arr: User[] = [];
-        this._raw.forEach(u => arr.push(u));
+
+        if (typeof options.$where === "function") [...this._raw].map(([s, u]) => u).filter(options.$where).forEach((u) => arr.push(u));
+        else if (typeof options.$where === "object") {
+
+            this._raw.forEach((u) => {
+                const check: number[] = [];
+                for (const key in options.$where) {
+                    if (u[key] === options.$where[key]) check.push(2)
+                    else check.push(1);
+                }
+                if (!check.includes(1)) arr.push(u);
+            });
+
+        } else if (typeof options.$where === "undefined") this._raw.forEach(u => arr.push(u));
+
         return arr;
     }
 

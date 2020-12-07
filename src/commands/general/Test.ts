@@ -1,5 +1,6 @@
 import { Message, MessageReaction, User as DUser } from "discord.js";
 import Store from "../../database/models/user/store.type";
+import User from "../../database/models/user/user.type";
 import BaseClient from "../../util/structure/Client";
 import Command from "../../util/structure/Command";
 
