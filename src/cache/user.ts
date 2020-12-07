@@ -13,8 +13,6 @@ export class UserCache {
         const users = await UserModel.find()
         for (const u of users)
             this._raw.set(u.uId, u);
-
-        setInterval(() => console.log(this), 2000);
     }
 
     /**

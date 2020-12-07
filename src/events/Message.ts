@@ -15,7 +15,6 @@ export default class Message extends Event {
         const command = args.shift();
 
         const CommandFile = client.commands.get(command) || client.commands.get(client.aliases.get(command));
-        console.log(CommandFile)
         if (CommandFile) return CommandFile.run(client, message, args);
     }
 }
