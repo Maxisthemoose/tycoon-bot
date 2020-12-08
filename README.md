@@ -14,3 +14,9 @@
 # Future Ideas
 - When you reach set level you will be able to create a franchise or sell your shop (to be determined).
 - Once in a franchise you unlock new items to be bought and other special perks. An example could be you can work more with a lower cool down.
+
+
+# Boosts To Income
+- selling multiplier (depends on shop and worker levels)
+- speed at which u can sell (depends on how many workers you have and what level they are)
+- shop size (how much money the shop can hold kinda like a bank) (depends on shop levels)
