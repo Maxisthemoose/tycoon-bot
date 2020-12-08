@@ -33,14 +33,11 @@ export class UserCache {
         if (typeof $where === "function") [...this._raw].map(([_, u]) => u).filter($where).forEach((u) => arr.push(u));
         else if (typeof $where === "object") {
 
-            this._raw.forEach((u) => {
-                const check: number[] = [];
-                for (const key in $where) {
-                    if (u[key] === $where[key]) check.push(2)
-                    else check.push(1);
-                }
-                if (!check.includes(1)) arr.push(u);
-            });
+            for (const [__, user] of this._raw) {
+                let equal: boolean = true;
+                for (const key in $where) if (user[key] !== $where[key]) equal = false;
+                if (equal) arr.push(user);
+            }
 
         } else if (typeof $where === "undefined") this._raw.forEach(u => arr.push(u));
 
