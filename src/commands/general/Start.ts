@@ -15,7 +15,7 @@ export default class Start extends Command {
     }
 
     public async run(client: Client, message: Message, args: string[]) {
-        const user = client.userCache.get(message.author.id);
+        const user = client.userCache.get({ uId: message.author.id });
         if (user) return message.channel.send("You have already started! You can't start again");
 
         await client.userCache.create({

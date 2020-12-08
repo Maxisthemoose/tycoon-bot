@@ -1,4 +1,4 @@
-import { Message, MessageReaction, User as DUser } from "discord.js";
+import { ClientVoiceManager, Message, MessageReaction, User as DUser } from "discord.js";
 import Store from "../../database/models/user/store.type";
 import User from "../../database/models/user/user.type";
 import BaseClient from "../../util/structure/Client";
@@ -17,7 +17,7 @@ export default class Test extends Command {
     }
     async run(client: BaseClient, message: Message, args: string[]) {
 
-        let user = client.userCache.get(message.author.id);
+        let user = client.userCache.get({ uId: message.author.id });
         if (!user) return message.channel.send(`Please use !${client.commands.get('start').CommandData.usage}`)
 
         if (args[0]?.toLowerCase() === 'delete') return this.delete(client, message);
