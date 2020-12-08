@@ -4,9 +4,11 @@ import "dotenv/config";
 import Command from "./Command";
 import initC from "../registry/Commands";
 import initE from "../registry/Events";
+import { UserCache } from "../../cache/user";
 
 export default class BaseClient extends Client {
 
+    public userCache = new UserCache();
     commands = new Collection<string, Command>();
     aliases = new Collection<string, string>();
 
