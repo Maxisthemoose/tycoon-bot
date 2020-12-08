@@ -17,7 +17,7 @@ export default class Test extends Command {
     async run(client: BaseClient, message: Message, args: string[]) {
 
         let user = client.userCache.get({ uId: message.author.id });
-        if (!user) return message.channel.send(`Please use !${client.commands.get('start').CommandData.usage}`)
+        if (!user) return message.channel.send(`Please use ${client.BaseClientData.prefix}${client.commands.get('start').CommandData.usage}`)
 
         if (args[0]?.toLowerCase() === 'delete') return this.delete(client, message);
 
