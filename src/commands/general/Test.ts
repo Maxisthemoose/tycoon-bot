@@ -22,8 +22,8 @@ export default class Test extends Command {
         if (args[0]?.toLowerCase() === 'delete') return this.delete(client, message);
 
         const stores: Store[] = [
-            { cost: 1000, output: 100, type: "pizza" },
-            { cost: 500, output: 50, type: "drinks" },
+            { cost: 1000, output: 3, type: "pizza", itemSellPrice: 7, sellPrice: 1000, storeId: 1, lastCheckIn: Date.now() },
+            { cost: 500, output: 5, type: "drinks", itemSellPrice: 2, sellPrice: 500, storeId: 1, lastCheckIn: Date.now() },
         ];
 
         const emojis = ["1️⃣", "2️⃣"];
