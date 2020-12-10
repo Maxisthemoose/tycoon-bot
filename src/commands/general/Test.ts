@@ -1,5 +1,6 @@
 import { Message, MessageReaction, User as DUser } from "discord.js";
 import Store from "../../database/models/user/store.type";
+import { MainEmbed } from "../../embeds/MainEmbed";
 import BaseClient from "../../util/structure/Client";
 import Command from "../../util/structure/Command";
 
@@ -20,6 +21,7 @@ export default class Test extends Command {
         if (!user) return message.channel.send(`Please use ${client.BaseClientData.prefix}${client.commands.get('start').CommandData.usage}`)
 
         if (args[0]?.toLowerCase() === 'delete') return this.delete(client, message);
+        if (args[0]?.toLowerCase() === 'embed') return this.embed(message);
 
         const stores: Store[] = [
             { cost: 1000, output: 100, type: "pizza" },
@@ -66,5 +68,15 @@ export default class Test extends Command {
     public async delete(client: BaseClient, message: Message,): Promise<void> {
         await client.userCache.delete(message.author.id);
         message.channel.send('Deleted you account!');
+    }
+
+    public embed(message: Message) {
+        const e = new MainEmbed()
+            .setMessage(message)
+            .setTitle('Test')
+            .setDescription('Test')
+            .addField('Test', 'Test');
+
+        message.channel.send(e);
     }
 }
