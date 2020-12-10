@@ -6,7 +6,7 @@ const User = new Schema({
 
     prestige: { type: Number, required: false, default: 0 },
     balance: { type: Number, required: false, default: 1000 },
-    stores: { type: Array, required: false, default: [] },
+    store: { type: Object, required: false, default: {} },
 });
 
 export default model<User>("users", User);

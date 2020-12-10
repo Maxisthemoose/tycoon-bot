@@ -17,5 +17,5 @@ export default interface User extends Document {
     /**
      * An array of all the stores the user owns and is operating
      */
-    stores?: Store[];
+    store?: Store;
 }

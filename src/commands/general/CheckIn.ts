@@ -24,19 +24,19 @@ export default class Help extends Command {
 
         let total_made = 0;
 
-        for (const store of user.stores) {
+        for (const worker of user.store.workers) {
 
-            if (one_minute - (Date.now() - store.lastCheckIn) < 0) {
+            if (one_minute - (Date.now() - worker.checkIn) < 0) {
 
-                const store_items_per_min = store.output;
-                const time_passed_min = Math.floor(Math.abs(Date.now() - store.lastCheckIn) / 1000 / 60);
+                const worker_items_per_min = worker.output;
+                const time_passed_min = Math.floor(Math.abs(Date.now() - worker.checkIn) / 1000 / 60);
 
-                const total_store_items = time_passed_min * store_items_per_min;
+                const total_worker_items = time_passed_min * worker_items_per_min;
 
-                user.balance += total_store_items * store.itemSellPrice;
-                total_made += total_store_items * store.itemSellPrice;
+                user.balance += total_worker_items * worker.sellPrice;
+                total_made += total_worker_items * worker.sellPrice;
 
-                store.lastCheckIn = Date.now();
+                worker.checkIn = Date.now();
             }
         }
 

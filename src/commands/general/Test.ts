@@ -2,7 +2,7 @@ import { Message, MessageReaction, User as DUser } from "discord.js";
 import Store from "../../database/models/user/store.type";
 import BaseClient from "../../util/structure/Client";
 import Command from "../../util/structure/Command";
-
+import Worker from "../../database/models/user/worker.type";
 export default class Test extends Command {
     constructor() {
         super({
@@ -21,14 +21,53 @@ export default class Test extends Command {
 
         if (args[0]?.toLowerCase() === 'delete') return this.delete(client, message);
 
+        if (args[0]?.toLowerCase() === "worker") {
+
+            const newWorker: Worker = {
+                checkIn: Date.now(),
+                sellMulti: 1,
+                sellPrice: 3,
+                specialty: "soda",
+                workerId: "124",
+                workerName: "John",
+                output: 20
+            }
+
+            if (user.balance - 500 < 0) return message.channel.send("You can't buy a new worker.");
+            else {
+
+                user.store.workers.push(newWorker);
+
+                user.balance -= 500;
+
+                client.userCache.update(user);
+
+                return message.channel.send(`You successfully bought a new worker.`);
+
+            }
+
+
+        }
+
         const stores: Store[] = [
-            { cost: 1000, output: 3, type: "pizza", itemSellPrice: 7, sellPrice: 1000, storeId: 1, lastCheckIn: Date.now() },
-            { cost: 500, output: 5, type: "drinks", itemSellPrice: 2, sellPrice: 500, storeId: 1, lastCheckIn: Date.now() },
+            {
+                cost: 1000, sellPrice: 1000, workers: [
+                    {
+                        checkIn: Date.now(),
+                        sellMulti: 1,
+                        sellPrice: 8,
+                        specialty: "pizza",
+                        workerId: "123",
+                        workerName: "John",
+                        output: 5
+                    }
+                ],
+            },
         ];
 
-        const emojis = ["1️⃣", "2️⃣"];
+        const emojis = ["1️⃣"];
 
-        const m = await message.channel.send(`Which store would you like to buy?\n\n${stores.map((d, i) => `${emojis[i]} ${d.type} - Costs $${d.cost} - Outputs: $${d.output}`).join("\n")}`)
+        const m = await message.channel.send(`Which store would you like to buy?\n\n${stores.map((d, i) => `${emojis[i]} ${d.workers[0].specialty} - Costs $${d.cost} - Outputs: $${d.workers[0].sellPrice}`).join("\n")}`)
 
         emojis.forEach(e => m.react(e));
 
@@ -42,14 +81,11 @@ export default class Test extends Command {
             case "1️⃣":
                 storeToBuy = stores[0];
                 break;
-            case "2️⃣":
-                storeToBuy = stores[1];
-                break;
         }
 
         await m.reactions.removeAll();
 
-        user.stores.push(storeToBuy);
+        user.store = storeToBuy;
 
         if ((user.balance - storeToBuy.cost) < 0) return m.edit(`${message.author}, you need ${Math.abs(user.balance - storeToBuy.cost)} more dollars to buy that!`);
         user.balance = user.balance - storeToBuy.cost;
@@ -60,7 +96,7 @@ export default class Test extends Command {
             return message.channel.send("Something went wrong");
         }
 
-        return m.edit(`${message.author}, you successfully bought the ${storeToBuy.type} store!`);
+        return m.edit(`${message.author}, you successfully bought the ${storeToBuy.workers[0].specialty} store!`);
     }
 
     public async delete(client: BaseClient, message: Message,): Promise<void> {
