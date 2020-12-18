@@ -9,5 +9,5 @@ export default abstract class Event {
     public get event(): keyof ClientEvents { return this.EventData.event }
     public get description(): string { return this.EventData.description }
 
-    abstract async run(client: BaseClient, ...args: any): Promise<any>;
+    abstract run(client: BaseClient, ...args: any): Promise<any>;
 }

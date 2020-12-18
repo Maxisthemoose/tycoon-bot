@@ -18,7 +18,7 @@ export default class BaseClient extends Client {
 
     public async start() {
         await import("../../database/database");
-        initC("./src/commands", ["general"], this);
+        initC("./src/commands", ["general", "shop"], this);
         initE("./src/events", this);
         this.login(this.BaseClientData.token);
     }

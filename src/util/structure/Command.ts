@@ -4,5 +4,5 @@ import CommandData from "../Interfaces/Command";
 
 export default abstract class Command {
     constructor(public CommandData: CommandData) { };
-    abstract async run(client: BaseClient, message: Message, args: string[]): Promise<any>;
+   abstract run(client: BaseClient, message: Message, args: string[]): Promise<any>;
 }
